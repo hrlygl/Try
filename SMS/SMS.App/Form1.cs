@@ -1,4 +1,5 @@
 using SMS.Domain;
+using SMS.Infastructure.Data;
 
 namespace SMS.App
 {
@@ -11,7 +12,12 @@ namespace SMS.App
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            createStudent(1, "giel", "giel.com");
+            using (var dbContext = new AppDbContext())
+            {
+                var program = dbContext.Programs.Where(p => p.ProgramName == "EE").FirstOrDefault();
+                createStudent(program.ProgramId, program.ProgramName, program.Description);
+            }
+            //createStudent(1, "giel", "giel.com");
         }
 
         private void buttonShow_Click(object sender, EventArgs e)
